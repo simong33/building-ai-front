@@ -1,6 +1,9 @@
 import React, { useRef, useEffect } from "react";
-import mapboxgl from 'mapbox-gl';
 import styled from 'styled-components';
+import mapboxgl from "mapbox-gl"; // This is a dependency of react-map-gl even if you didn't explicitly install it
+
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
 const MapContainer = styled.div`
     width: calc(100vw - 600px);
@@ -62,7 +65,6 @@ function Map({
             });
             
             const existingPaintProperties = map.getPaintProperty(customLayerId, 'fill-extrusion-color');
-            
             map.on('click', (e) => {
                 setPredKlass(null);
                 const features = map.queryRenderedFeatures(e.point, {
@@ -70,7 +72,7 @@ function Map({
                 });
                 const existingLayerStyle = map.getLayer(customLayerId);
                 const center = e.lngLat;
-                const address = fetchAddress({ center }).then((address) => {
+                fetchAddress({ center }).then((address) => {
                     setAddress(address.features[0].properties.label);
                     setLoading(true)
                 });
@@ -91,11 +93,28 @@ function Map({
                         setLoading(false)
                         console.log(`Predicted class: ${predKlass}`);
                         console.log(`Distance: ${measureLetterDistance(trueKlass, predKlass)}`)
+
+                        firstFeature.properties.class_conso_ener_mean = predKlass;
+                        console.log(firstFeature)
+
+                        const colorExpression = [
+                            'match',
+                            ['get', 'class_conso_ener_mean'],
+                            'A', '#4fab4f',
+                            'B', '#19f020',
+                            'C', '#defbd0',
+                            'D', '#f7f7bb',
+                            'E', '#f7e8c5',
+                            'F', '#f3ba59',
+                            'G', '#f8b5b5',
+                            'N', '#d3cfcf',
+                            '#ffffff'
+                          ];
+
+                        map.setPaintProperty(customLayerId, 'fill-extrusion-color', colorExpression);
                     });
-                    
                 };
             });
-              
           });
 
         if (location) {
