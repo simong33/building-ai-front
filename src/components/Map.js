@@ -67,6 +67,7 @@ function Map({
             const existingPaintProperties = map.getPaintProperty(customLayerId, 'fill-extrusion-color');
             map.on('click', (e) => {
                 setPredKlass(null);
+                setTrueKlass(null);
                 const features = map.queryRenderedFeatures(e.point, {
                   layers: [customLayerId],
                 });
@@ -81,7 +82,9 @@ function Map({
                     const firstFeature = features[0];
                     const trueKlass = firstFeature.properties.class_conso_ener_mean;
                     console.log(`True class: ${trueKlass}`);
-                    setTrueKlass(trueKlass);
+                    if (trueKlass !== 'N') {
+                        setTrueKlass(trueKlass);
+                    }
                     const buildingId = firstFeature.properties.batiment_groupe_id;
                     fetchKlass(buildingId).then((klass) => {
                         let predKlass = klass.classe;
