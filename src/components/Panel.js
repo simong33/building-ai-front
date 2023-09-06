@@ -84,6 +84,18 @@ function Panel({
                 )
             }
             {
+                trueKlass && (
+                    <PanelSection>
+                        <h2>Actual Class</h2>
+                        <InnerPanel>
+                            <Letter letter={trueKlass}>
+                                {trueKlass}
+                            </Letter>
+                        </InnerPanel>
+                    </PanelSection>
+                )
+            }
+            {
                 loading && predKlass === null && (
                     <LoaderSection>
                         <ThreeDots 
