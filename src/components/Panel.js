@@ -1,16 +1,32 @@
 import React from "react";
 import styled from 'styled-components';
 import { ThreeDots } from  'react-loader-spinner'
+import Logo from '../assets/logo.png'
 
 const PanelContainer = styled.div`
     width: 600px;
     height: 100%;
-    background-color: #F9F4F1;
-    padding: 20px;
+    background-color: #586BA4;
+    padding: 32px;
     box-sizing: border-box;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+
+    h1 {
+        color: white;
+    }
+    
+    .logo-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 32px 0 64px 0;
+
+        img {
+            width: 50%;
+        }
+    }
 `;
 
 const PanelSection = styled.div`
@@ -22,6 +38,10 @@ const PanelSection = styled.div`
     h2 {
         padding: 0;
         margin-top: 0;
+    }
+
+    p {
+        font-size: 20px;
     }
 `;
 
@@ -69,7 +89,9 @@ function Panel({
 }) {
     return (
         <PanelContainer>
-            <h1>Building AI</h1>
+            <div className="logo-container">
+                <img src={Logo}/>
+            </div>
             {
                 address ? (
                     <PanelSection>
@@ -102,7 +124,7 @@ function Panel({
                             height="80" 
                             width="80" 
                             radius="9"
-                            color="#1F2980" 
+                            color="white" 
                             ariaLabel="three-dots-loading"
                             wrapperStyle={{}}
                             wrapperClassName=""
@@ -114,7 +136,7 @@ function Panel({
             {
                 predKlass && (
                     <PanelSection>
-                        <h2>Predicted Class</h2>
+                        <h2>Predicted class<span>{trueKlass === predKlass ? ' 🎉🎉🎉' : ''}</span></h2>
                         <InnerPanel>
                             <Letter letter={predKlass}>
                                 {predKlass}
