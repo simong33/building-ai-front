@@ -7,7 +7,7 @@ const PanelContainer = styled.div`
     width: 600px;
     height: 100%;
     background-color: #586BA4;
-    padding: 32px;
+    padding: 48px;
     box-sizing: border-box;
     overflow-y: auto;
     display: flex;
@@ -30,9 +30,9 @@ const PanelContainer = styled.div`
 `;
 
 const PanelSection = styled.div`
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     padding: 20px;
-    border-radius: 6px;
+    border-radius: 8px;
     background-color: white;
 
     h2 {
